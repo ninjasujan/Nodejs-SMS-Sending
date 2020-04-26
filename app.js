@@ -48,6 +48,12 @@ app.post('/', (req, res) => {
         console.log('err');
       } else {
         console.dir(resdata);
+        // GET data from response
+        const data = {
+          id: resdata.messages[0]['message-id'],
+          number: resdata.messages[0]['to'],
+        };
+        io.emit('smsStatus', data);
       }
     }
   );
@@ -57,4 +63,12 @@ app.post('/', (req, res) => {
 const port = 5000;
 const server = app.listen(port, () => {
   console.log(`server running in port ${port}`);
+});
+
+const io = socketIo(server);
+io.on('connection', () => {
+  console.log('connected');
+  io.on('disconnect', () => {
+    console.log('disconnected');
+  });
 });

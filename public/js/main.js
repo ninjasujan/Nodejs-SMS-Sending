@@ -23,3 +23,7 @@ function send() {
 }
 
 button.addEventListener('click', send, false);
+
+socket.on('smsStatus', function (data) {
+  response.innerHTML = '<h5> text message sent To: ' + data.number + ' </h5?';
+});
